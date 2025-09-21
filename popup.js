@@ -16,21 +16,22 @@ const addNewBookmark = (bookmarksElement, bookmark) => {
     newBookmarkElement.appendChild(controlsElement);
     bookmarksElement.appendChild(newBookmarkElement);
 };
-
 const viewBookmarks = (currentBookmarks = []) => {
     const bookmarksElement = document.getElementById("bookmarks");
-    bookmarksElement.innerHTML = ""; 
+    bookmarksElement.innerHTML = "";
+
     if (currentBookmarks.length > 0) {
-        for (let i = currentBookmarks.length - 1; i >= 0; i--) {
+        for (let i = 0; i < currentBookmarks.length; i++) {
             const bookmark = currentBookmarks[i];
             addNewBookmark(bookmarksElement, bookmark);
         }
-
-    }
-    else {
+    } else {
         bookmarksElement.innerHTML = '<i class="row">No bookmarks to show</i>';
     }
 };
+
+
+
 const onPlay = async e => {
     const bookmarkTime = e.target.parentNode.parentNode.getAttribute("timestamp");
     const activeTab = await getActiveTabUrl();

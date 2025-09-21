@@ -72,6 +72,7 @@
         const currentTime = youtubePlayer.currentTime || 0;
         const timeFloor = Math.floor(currentTime);
 
+        // Check if a bookmark at this time already exists
         const already = currentVideoBookmarks.some(b => Math.floor(b.time) === timeFloor);
         if (already) {
             console.log("Bookmark at this time already exists:", timeFloor);
@@ -83,9 +84,10 @@
             desc: "Bookmark at " + getTime(currentTime),
         };
 
-        // Add new to top
+        // Add new bookmark to the front of the array (newest first)
         currentVideoBookmarks.unshift(newBookmark);
 
+        // Save to storage (no sorting needed)
         chrome.storage.sync.set({ [currentVideo]: JSON.stringify(currentVideoBookmarks) }, () => {
             console.log("Bookmark saved!", newBookmark);
         });
