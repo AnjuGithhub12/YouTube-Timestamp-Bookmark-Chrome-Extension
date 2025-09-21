@@ -67,19 +67,29 @@ const setBookmarkAttributes = (src, eventListener, controleParentElement) => {
 
 document.addEventListener("DOMContentLoaded", async () => {
     const activeTab = await getActiveTabUrl();
-    const queryParameters = activeTab.url.split("?")[1];
 
+    // Check if activeTab.url exists and is a YouTube video page
+    if (!activeTab.url || !activeTab.url.includes("youtube.com/watch")) {
+        const container = document.getElementsByClassName("container")[0];
+        container.innerHTML = '<div class="title">This is not a YouTube video page.</div>';
+        return; // Stop execution here if not on a YouTube video page
+    }
+
+    // Safe to parse URL parameters now
+    const queryParameters = activeTab.url.split("?")[1];
     const urlParameters = new URLSearchParams(queryParameters);
     const currentVideo = urlParameters.get("v");
-    if (activeTab.url.includes("youtube.com/watch") && currentVideo) {
+
+    if (currentVideo) {
         chrome.storage.sync.get([currentVideo], (data) => {
             const currentVideoBookmarks = data[currentVideo] ? JSON.parse(data[currentVideo]) : [];
+            console.log("Bookmarks found for", currentVideo, currentVideoBookmarks);
             viewBookmarks(currentVideoBookmarks);
-
         });
     }
-    else {
+ else {
+        // Handle case where URL has no "v" parameter
         const container = document.getElementsByClassName("container")[0];
-        container.innerHTML = '<div class="title">This is not a youtube video page.</div>';
+        container.innerHTML = '<div class="title">No video ID found in URL.</div>';
     }
 });

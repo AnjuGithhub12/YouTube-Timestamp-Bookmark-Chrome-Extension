@@ -37,12 +37,23 @@
             time: currentTime,
             desc: "Bookmark at " + getTime(currentTime),
         };
-        console.log(newBookmark);
+        console.log("Adding new bookmark:", newBookmark);
 
+        // ✅ Update the local bookmarks array
+        currentVideoBookmarks.push(newBookmark);
+        currentVideoBookmarks.sort((a, b) => a.time - b.time);
+
+        // ✅ Save to chrome.storage.sync
         chrome.storage.sync.set({
-            [currentVideo]: JSON.stringify([...currentVideoBookmarks, newBookmark].sort((a, b) => a.time - b.time))
+            [currentVideo]: JSON.stringify(currentVideoBookmarks)
+        }, () => {
+            console.log("Bookmark saved!");
         });
-    }
+    
+
+
+
+    };
 
     newVideoLoaded();
 })();
