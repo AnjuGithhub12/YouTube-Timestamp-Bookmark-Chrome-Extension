@@ -27,3 +27,8 @@ This extension helps **YouTube users, students, content creators, and researcher
 - **Resume learning or watching** from the last saved timestamp  
 - Efficiently **organize and manage bookmarks** for multiple videos  
 - Enhance productivity by **reducing time spent searching for specific parts** of a video
+
+
+---
+
+<img width="1024" height="1024" alt="Gemini_Generated_Image_b8zelib8zelib8ze" src="https://github.com/user-attachments/assets/6a5a9af0-8d4f-4e84-b0f5-5b1144ba5f6e" />
