@@ -21,10 +21,11 @@ const viewBookmarks = (currentBookmarks = []) => {
     const bookmarksElement = document.getElementById("bookmarks");
     bookmarksElement.innerHTML = ""; 
     if (currentBookmarks.length > 0) {
-        for (let i = 0; i < currentBookmarks.length; i++){
-            const bookmark = currentBookmarks[i]; 
+        for (let i = currentBookmarks.length - 1; i >= 0; i--) {
+            const bookmark = currentBookmarks[i];
             addNewBookmark(bookmarksElement, bookmark);
         }
+
     }
     else {
         bookmarksElement.innerHTML = '<i class="row">No bookmarks to show</i>';
@@ -49,13 +50,20 @@ const onDelete = async e => {
     chrome.storage.sync.get([currentVideo], (data) => {
         const currentVideoBookmarks = data[currentVideo] ? JSON.parse(data[currentVideo]) : [];
 
-        const updatedBookmarks = currentVideoBookmarks.filter(b => b.time != bookmarkTime);
+        const updatedBookmarks = currentVideoBookmarks.filter(b => Math.floor(b.time) !== Math.floor(bookmarkTime));
 
         chrome.storage.sync.set({ [currentVideo]: JSON.stringify(updatedBookmarks) }, () => {
             viewBookmarks(updatedBookmarks);
+
+            // Notify content script (optional, for sync)
+            chrome.tabs.sendMessage(activeTab.id, {
+                type: "DELETE",
+                value: bookmarkTime,
+            });
         });
     });
 };
+
 
 const setBookmarkAttributes = (src, eventListener, controleParentElement) => {
     const controlElement = document.createElement("img");
