@@ -9,6 +9,8 @@
         if (type === "NEW") {
             currentVideo = videoId;
             newVideoLoaded();
+        } else if (type === "PLAY") {
+            youtubePlayer.currentTime = value;
         }
     });
 

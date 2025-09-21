@@ -41,18 +41,22 @@ const onPlay = async e => {
 const onDelete = async e => {
     const activeTab = await getActiveTabUrl();
     const bookmarkTime = e.target.parentNode.parentNode.getAttribute("timestamp");
-    const bookmarksElementToDelete = document.getElementById("bookmark-" + bookmarkTime);
-    bookmarksElementToDelete.parentNode.removeChild(bookmarksElementToDelete);
-    chrome.tabs.sendMessage(activeTab.id, {
-        type: "PLAY",
-        value: bookmarkTime
-    }, (response) => {
-        if (chrome.runtime.lastError) {
-            console.warn("Error sending PLAY message:", chrome.runtime.lastError.message);
-        }
-    });
 
+    const queryParameters = activeTab.url.split("?")[1];
+    const urlParameters = new URLSearchParams(queryParameters);
+    const currentVideo = urlParameters.get("v");
+
+    chrome.storage.sync.get([currentVideo], (data) => {
+        const currentVideoBookmarks = data[currentVideo] ? JSON.parse(data[currentVideo]) : [];
+
+        const updatedBookmarks = currentVideoBookmarks.filter(b => b.time != bookmarkTime);
+
+        chrome.storage.sync.set({ [currentVideo]: JSON.stringify(updatedBookmarks) }, () => {
+            viewBookmarks(updatedBookmarks);
+        });
+    });
 };
+
 const setBookmarkAttributes = (src, eventListener, controleParentElement) => {
     const controlElement = document.createElement("img");
     controlElement.src = "assets/" + src + ".png";
