@@ -30,5 +30,10 @@ This extension helps **YouTube users, students, content creators, and researcher
 
 
 ---
+check out how the extension works using this drive link -> https://drive.google.com/file/d/14N6T9vc9pzBBFrOEVDPaYyZ368VE286p/view?usp=sharing
+---
+---
 
-<img width="1024" height="1024" alt="Gemini_Generated_Image_b8zelib8zelib8ze" src="https://github.com/user-attachments/assets/6a5a9af0-8d4f-4e84-b0f5-5b1144ba5f6e" />
+
+<img width="3112" height="1638" alt="Untitled (3)" src="https://github.com/user-attachments/assets/123e5716-ec2b-4ede-94cc-aa3a79f07b4c" />
+
